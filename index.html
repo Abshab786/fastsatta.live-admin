@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Control Panel — FASTSATTA.LIVE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .admin-card {
+      background-color: #ffffff;
+      border: 3px solid #a00000;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(160,0,0,0.1);
+    }
+    .blinking-wait {
+      animation: blink 1s infinite;
+      background-color: #ef4444;
+      color: #ffffff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 900;
+    }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-amber-50/50 text-slate-900 min-h-screen flex flex-col font-sans">
+
+  <!-- Admin Header -->
+  <header class="bg-red-900 text-white border-b-4 border-yellow-400 p-4 shadow-xl">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center space-x-2">
+        <a href="index.html" class="font-black text-2xl text-yellow-300">FASTSATTA.LIVE</a>
+        <span class="bg-yellow-400 text-slate-950 font-black text-xs px-2.5 py-0.5 rounded uppercase">MASTER ADMIN PANEL</span>
+      </div>
+      <div class="flex items-center space-x-3 text-xs font-bold">
+        <span class="bg-red-950 px-3 py-1.5 rounded text-yellow-300 border border-red-800">10 Markets Active</span>
+        <a href="index.html" target="_blank" class="bg-yellow-400 hover:bg-yellow-300 text-slate-950 px-4 py-1.5 rounded-lg font-black uppercase shadow-md">View Live Website &rarr;</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+
+    <!-- 🚀 SECTION 1: DIRECT RESULT PUBLISHER (दैनिक परिणाम पब्लिशर) -->
+    <section class="admin-card p-6 space-y-4">
+      <div class="bg-red-800 text-yellow-300 p-3.5 rounded-xl font-black text-center text-base sm:text-lg uppercase tracking-wider border-2 border-yellow-400 shadow-md">
+        🚀 Direct Result Publisher (दैनिक परिणाम पब्लिशर)
+      </div>
+
+      <form id="direct-publisher-form" class="space-y-4 text-xs font-bold">
+
+        <!-- Row 1: Select Market & Target Date -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block uppercase text-red-900 font-black mb-1">1. Select Market (10 Markets)</label>
+            <select id="pub-market-select" class="w-full p-3.5 rounded-xl border-2 border-slate-300 font-black text-sm bg-white text-slate-900 focus:border-red-800 focus:outline-none shadow-sm"></select>
+          </div>
+
+          <div>
+            <label class="block uppercase text-red-900 font-black mb-1">2. Target Date (Year, Month, Day)</label>
+            <input id="pub-target-date" type="date" required class="w-full p-3.5 rounded-xl border-2 border-slate-300 font-bold text-sm bg-white focus:border-red-800 focus:outline-none shadow-sm">
+          </div>
+        </div>
+
+        <!-- Row 2: Today's Number & Yesterday's Number (Auto Loaded) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block uppercase text-red-900 font-black mb-1">3. Today's Number (आज का 2 अंकों का रिज़ल्ट)</label>
+            <input id="pub-today-number" type="text" placeholder="उदा: 45" required class="w-full p-3.5 rounded-xl border-2 border-red-600 font-mono text-2xl font-black text-emerald-700 bg-white focus:border-red-800 focus:outline-none shadow-sm">
+          </div>
+
+          <div>
+            <label class="block uppercase text-slate-800 font-black mb-1">
+              4. Yesterday's Number (कल क्या आया था - Auto Loaded)
+            </label>
+            <input id="pub-yesterday-number" type="text" placeholder="उदा: 47" class="w-full p-3.5 rounded-xl border-2 border-slate-300 font-mono text-xl font-black text-slate-900 bg-slate-100 focus:border-red-800 focus:outline-none shadow-sm">
+            <span id="pub-yesterday-hint" class="text-[11px] font-black text-emerald-800 mt-1 block"></span>
+          </div>
+        </div>
+
+        <!-- Row 3: Live Now Checkboxes -->
+        <div class="bg-amber-100/80 p-4 rounded-xl border-2 border-amber-400 space-y-3">
+          <div class="flex items-center space-x-2">
+            <input id="chk-set-live-now" type="checkbox" class="w-5 h-5 accent-red-800 rounded">
+            <label for="chk-set-live-now" class="font-black text-red-900 text-sm cursor-pointer">
+              5. SET AS LIVE NOW Checkbox (वेबसाइट पर WAIT... ⏳ [??] रेड ब्लिंकिंग बॉक्स दिखेगा और नंबर टाइम आने पर लाइव होगा)
+            </label>
+          </div>
+
+          <div class="flex items-center space-x-2 pt-1 border-t border-amber-300">
+            <input id="chk-show-instantly" type="checkbox" checked class="w-5 h-5 accent-red-800 rounded">
+            <label for="chk-show-instantly" class="font-black text-emerald-900 text-sm cursor-pointer">
+              6. SHOW INSTANTLY (हथो-हाथ दिखाएँ) Checkbox — बिना इंतज़ार किए तुरंत वेबसाइट पर लाइव करें!
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full py-4 bg-red-800 hover:bg-red-700 text-yellow-300 font-black text-base uppercase rounded-xl shadow-xl transition-transform transform active:scale-98">
+          🚀 SAVE & PUBLISH RESULT (हथो-हाथ लाइव वेबसाइट सिंक करें)
+        </button>
+      </form>
+    </section>
+
+    <!-- 💬 SECTION 2: WHATSAPP & TELEGRAM LINK & BUTTON MANAGER -->
+    <section class="admin-card p-6 space-y-4 border-2 border-emerald-600 bg-emerald-50/30">
+      <div class="bg-emerald-800 text-yellow-300 p-3.5 rounded-xl font-black text-center text-base uppercase tracking-wider border-2 border-yellow-400 shadow-md">
+        💬 WhatsApp & Telegram Link & Button Manager (व्हाट्सएप और टेलीग्राम ऑन/ऑफ एवं लिंक मैनेजर)
+      </div>
+
+      <div class="space-y-4 text-xs font-bold">
+        <p class="text-slate-800 font-black text-sm">यहाँ से मुख्य वेबसाइट पर WhatsApp और Telegram बटन के लिंक बदलें और बटन ऑन/ऑफ (Enable/Disable) करें:</p>
+
+        <!-- WhatsApp Settings -->
+        <div class="bg-white p-4 rounded-xl border-2 border-emerald-400 space-y-3 shadow-sm">
+          <div class="flex items-center justify-between border-b border-emerald-100 pb-2">
+            <span class="font-black text-emerald-950 text-sm uppercase">1. WhatsApp Button & Link Settings</span>
+            <div class="flex items-center space-x-2">
+              <input id="adm-wa-enabled" type="checkbox" checked class="w-5 h-5 accent-emerald-600 rounded">
+              <label for="adm-wa-enabled" class="font-black text-emerald-900 text-xs cursor-pointer">
+                ENABLE WhatsApp Button on Main Site (ऑन/ऑफ)
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block uppercase text-slate-700 font-black mb-1">WhatsApp Chat Link or Phone Number URL</label>
+            <input id="adm-wa-link" type="text" placeholder="https://api.whatsapp.com/send?phone=918090000000" class="w-full p-3 rounded-lg border-2 border-slate-300 font-mono text-xs font-bold bg-white text-slate-900 focus:border-emerald-600 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Telegram Settings -->
+        <div class="bg-white p-4 rounded-xl border-2 border-sky-400 space-y-3 shadow-sm">
+          <div class="flex items-center justify-between border-b border-sky-100 pb-2">
+            <span class="font-black text-sky-950 text-sm uppercase">2. Telegram Button & Link Settings</span>
+            <div class="flex items-center space-x-2">
+              <input id="adm-tg-enabled" type="checkbox" checked class="w-5 h-5 accent-sky-600 rounded">
+              <label for="adm-tg-enabled" class="font-black text-sky-900 text-xs cursor-pointer">
+                ENABLE Telegram Button on Main Site (ऑन/ऑफ)
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block uppercase text-slate-700 font-black mb-1">Telegram Channel or Contact Link</label>
+            <input id="adm-tg-link" type="text" placeholder="https://t.me/YourChannelName" class="w-full p-3 rounded-lg border-2 border-slate-300 font-mono text-xs font-bold bg-white text-slate-900 focus:border-sky-600 focus:outline-none">
+          </div>
+        </div>
+
+        <button id="btn-save-social-settings" type="button" class="w-full py-4 bg-emerald-800 hover:bg-emerald-700 text-yellow-300 font-black text-sm uppercase rounded-xl shadow-lg transition-transform transform active:scale-98">
+          💾 SAVE SOCIAL LINKS & BUTTON SETTINGS (सेटिंग्स तुरंत सेव करें)
+        </button>
+      </div>
+    </section>
+
+    <!-- 🗑️ SECTION 3: DELETE / RESET WRONG RESULT -->
+    <section class="admin-card p-6 space-y-4 border-2 border-red-600 bg-red-50/30">
+      <div class="bg-red-900 text-yellow-300 p-3.5 rounded-xl font-black text-center text-base uppercase tracking-wider border-2 border-yellow-400 shadow-md">
+        🗑️ DELETE / RESET WRONG RESULT (गलत रिज़ल्ट डिलीट या रीसेट करें)
+      </div>
+
+      <div class="space-y-4 text-xs font-bold">
+        <p class="text-slate-800 font-black text-sm">अगर गलती से किसी मार्केट का गलत नंबर अपलोड हो गया है, तो यहाँ से तुरंत डिलीट या रीसेट (XX Waiting) करें:</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block uppercase text-red-900 font-black mb-1">1. Select Market</label>
+            <select id="del-market-select" class="w-full p-3.5 rounded-xl border-2 border-slate-300 font-black text-sm bg-white text-slate-900 focus:border-red-800 focus:outline-none shadow-sm"></select>
+          </div>
+
+          <div>
+            <label class="block uppercase text-red-900 font-black mb-1">2. Target Date</label>
+            <input id="del-target-date" type="date" class="w-full p-3.5 rounded-xl border-2 border-slate-300 font-bold text-sm bg-white focus:border-red-800 focus:outline-none shadow-sm">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <button id="btn-reset-to-waiting" type="button" class="py-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-sm uppercase rounded-xl shadow-lg border border-amber-600">
+            🔄 RESET TO XX WAITING (वेटिंग बनाएं)
+          </button>
+
+          <button id="btn-delete-result" type="button" class="py-3.5 bg-red-700 hover:bg-red-800 text-white font-black text-sm uppercase rounded-xl shadow-lg border border-red-900">
+            🗑️ DELETE RESULT RECORD (पूरा डिलीट करें)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIVIDER LINE -->
+    <div class="relative border-b-4 border-red-800 my-6">
+      <span class="absolute left-1/2 -translate-x-1/2 -top-4 bg-red-800 text-yellow-300 px-4 py-1 rounded-full text-xs font-black uppercase">
+        🔒 ADVANCE MASTER PANEL SECTIONS BELOW
+      </span>
+    </div>
+
+    <!-- 🔒 SECTION 4: ADVANCE MASTER PANEL (PASSWORD: Ajay@8090) -->
+    <section class="admin-card p-6 space-y-6">
+      <div class="bg-slate-900 text-yellow-300 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div>
+          <h2 class="font-black text-lg uppercase">🔒 Advance Master Panel</h2>
+          <p class="text-xs text-slate-300 font-bold mt-0.5">Security Password: <strong class="text-yellow-300 font-mono">Ajay@8090</strong></p>
+        </div>
+
+        <div id="advance-lock-badge" class="bg-red-800 text-white px-3 py-1.5 rounded-lg text-xs font-black">
+          🔒 Locked
+        </div>
+      </div>
+
+      <!-- Password Prompt if locked -->
+      <div id="advance-pass-container" class="bg-amber-100 border-2 border-amber-400 p-5 rounded-xl text-center space-y-3">
+        <span class="font-black text-red-900 text-sm block">🔐 ENTER ADVANCE CATEGORY SECURITY PASSWORD TO UNLOCK</span>
+        <div class="flex max-w-md mx-auto space-x-2">
+          <input id="advance-pass-input" type="password" placeholder="Password (Ajay@8090)" value="Ajay@8090" class="flex-1 p-3 rounded-xl border-2 border-red-800 font-black text-sm text-center">
+          <button id="btn-unlock-advance" type="button" class="px-5 py-3 bg-red-800 text-yellow-300 font-black text-xs uppercase rounded-xl shadow-md">Unlock</button>
+        </div>
+        <p id="advance-pass-error" class="text-xs text-red-700 font-black hidden">Invalid Security Password!</p>
+      </div>
+
+      <!-- Unlocked Advance Panel Workspace -->
+      <div id="advance-panel-workspace" class="hidden space-y-6">
+
+        <!-- Sub-tabs -->
+        <div class="flex space-x-2 border-b-2 border-red-800 overflow-x-auto pb-1 text-xs font-black uppercase">
+          <button id="adv-tab-2" type="button" class="px-4 py-2.5 bg-red-800 text-yellow-300 rounded-t-xl">📌 Cat 2: Position & Badges</button>
+          <button id="adv-tab-4" type="button" class="px-4 py-2.5 bg-slate-200 text-slate-800 hover:bg-slate-300 rounded-t-xl">⏰ Cat 3: Market Time & Names</button>
+          <button id="adv-tab-5" type="button" class="px-4 py-2.5 bg-slate-200 text-slate-800 hover:bg-slate-300 rounded-t-xl">📊 Cat 4: Monthly Chart Editor</button>
+        </div>
+
+        <!-- CATEGORY 2: POSITION & BADGES -->
+        <div id="adv-cnt-2" class="space-y-4 text-xs font-bold">
+          <h3 class="font-black text-red-800 text-sm uppercase">📌 Category 2: Market Position & Blinking Badges</h3>
+
+          <div class="overflow-x-auto">
+            <table class="satta-table text-xs">
+              <thead>
+                <tr>
+                  <th class="text-left">MARKET</th>
+                  <th class="text-center">RANK (#1-#10)</th>
+                  <th class="text-center">BADGE / TAG</th>
+                  <th class="text-right">SAVE</th>
+                </tr>
+              </thead>
+              <tbody id="adv-table-badges-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CATEGORY 3: MARKET TIME & NAMES -->
+        <div id="adv-cnt-4" class="space-y-4 text-xs font-bold hidden">
+          <h3 class="font-black text-red-800 text-sm uppercase">⏰ Category 3: Market Names & Draw Timings Setup</h3>
+
+          <div class="overflow-x-auto">
+            <table class="satta-table text-xs">
+              <thead>
+                <tr>
+                  <th class="text-left">MARKET DISPLAY NAME</th>
+                  <th class="text-center">DISPLAY TIME</th>
+                  <th class="text-right">UPDATE</th>
+                </tr>
+              </thead>
+              <tbody id="adv-table-timings-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CATEGORY 4: MONTHLY CHART MANAGER -->
+        <div id="adv-cnt-5" class="space-y-4 text-xs font-bold hidden">
+          <h3 class="font-black text-red-800 text-sm uppercase">📊 Category 4: Full Monthly Chart Manager (Edit Past Records)</h3>
+
+          <div class="bg-amber-100 p-4 rounded-xl border-2 border-amber-400 space-y-3">
+            <span class="font-black text-red-900 block text-xs">EDIT SINGLE CELL RESULT</span>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
+              <select id="chart-edit-market" class="p-2.5 rounded-lg border-2 border-slate-300 font-bold bg-white"></select>
+              <input id="chart-edit-date" type="date" class="p-2.5 rounded-lg border-2 border-slate-300 font-bold bg-white">
+              <input id="chart-edit-val" type="text" placeholder="Result Number (e.g. 45)" class="p-2.5 rounded-lg border-2 border-slate-300 font-black text-center font-mono bg-white">
+              <button id="btn-chart-single-save" type="button" class="px-4 py-2.5 bg-red-800 text-yellow-300 font-black uppercase rounded-lg">Save Cell</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⚡ SECTION 5: CURRENT LIVE DATA SYNC MONITOR -->
+    <section class="admin-card p-6 space-y-3">
+      <div class="bg-slate-900 text-white p-3 rounded-lg flex justify-between items-center">
+        <span class="font-black text-yellow-300 text-sm uppercase">⚡ Current Live Data Sync Monitor</span>
+        <span class="text-xs text-emerald-400 font-mono font-bold">100ms Live Database Sync</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="satta-table text-xs">
+          <thead>
+            <tr>
+              <th class="text-left">MARKET</th>
+              <th class="text-center">RANK</th>
+              <th class="text-center">BADGE</th>
+              <th class="text-center">YESTERDAY</th>
+              <th class="text-center">TODAY LIVE</th>
+              <th class="text-right">QUICK ACTION</th>
+            </tr>
+          </thead>
+          <tbody id="sync-monitor-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-red-900 text-white border-t-4 border-yellow-400 py-6 text-center text-xs font-bold">
+    <p>© 2026 Fastsatta.live Master Admin Panel. Password Protected Advance Master Sections.</p>
+  </footer>
+
+  <!-- Firebase Web SDK Compat Scripts for Realtime Cloud Sync -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <script src="js/data.js"></script>
+  <script>
+    // Bulletproof Master Admin Script Engine
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const istDate = (typeof getISTDateString === 'function') ? getISTDateString() : '2026-10-09';
+        const dateInput = document.getElementById('pub-target-date');
+        const delDateInput = document.getElementById('del-target-date');
+        const chartDateInput = document.getElementById('chart-edit-date');
+
+        if (dateInput) dateInput.value = istDate;
+        if (delDateInput) delDateInput.value = istDate;
+        if (chartDateInput) chartDateInput.value = istDate;
+
+        loadMarketDropdowns();
+        loadSyncMonitor();
+        setupPublisher();
+        setupSocialManager();
+        setupDeleteAndReset();
+        setupAdvancePanel();
+
+        loadYesterdayNumberForMarket();
+
+        const pubSelect = document.getElementById('pub-market-select');
+        const pubDate = document.getElementById('pub-target-date');
+        if (pubSelect) pubSelect.addEventListener('change', loadYesterdayNumberForMarket);
+        if (pubDate) pubDate.addEventListener('change', loadYesterdayNumberForMarket);
+      } catch (err) {
+        console.error("Admin init error:", err);
+      }
+    });
+
+    function loadYesterdayNumberForMarket() {
+      try {
+        const marketSelect = document.getElementById('pub-market-select');
+        const dateInput = document.getElementById('pub-target-date');
+        if (!marketSelect || !dateInput || !window.dataEngine) return;
+
+        const marketId = marketSelect.value;
+        const targetDateStr = dateInput.value;
+
+        if (marketId && targetDateStr) {
+          const dateParts = targetDateStr.split('-');
+          const targetObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
+          targetObj.setDate(targetObj.getDate() - 1);
+
+          const yYear = targetObj.getFullYear();
+          const yMonth = String(targetObj.getMonth() + 1).padStart(2, '0');
+          const yDay = String(targetObj.getDate()).padStart(2, '0');
+          const yesterdayDateStr = `${yYear}-${yMonth}-${yDay}`;
+
+          const allResults = window.dataEngine.getResults();
+          const yRecord = allResults.find(r => r.marketId === marketId && r.resultDate === yesterdayDateStr);
+          const m = window.dataEngine.getMarkets().find(item => item.id === marketId);
+
+          const yInput = document.getElementById('pub-yesterday-number');
+          const yHint = document.getElementById('pub-yesterday-hint');
+
+          if (yRecord && yRecord.resultValue && yRecord.resultValue !== 'XX') {
+            if (yInput) yInput.value = yRecord.resultValue;
+            if (yHint) yHint.innerText = `✅ कल (${yesterdayDateStr}) को ${m ? m.name : 'मार्केट'} का रिज़ल्ट [ ${yRecord.resultValue} ] आया था (Auto Loaded)`;
+          } else {
+            if (yInput) yInput.value = '';
+            if (yHint) yHint.innerText = `ℹ️ कल (${yesterdayDateStr}) का डेटाबेस में रिकॉर्ड उपलब्ध नहीं है।`;
+          }
+        }
+      } catch(e) { console.warn(e); }
+    }
+
+    function loadMarketDropdowns() {
+      try {
+        const select = document.getElementById('pub-market-select');
+        const delSelect = document.getElementById('del-market-select');
+        const chartSelect = document.getElementById('chart-edit-market');
+
+        if (window.dataEngine) {
+          const markets = window.dataEngine.getMarkets();
+          const html = markets.map(m => `<option value="${m.id}">${m.name} (${m.resultTime})</option>`).join('');
+          if (select) select.innerHTML = html;
+          if (delSelect) delSelect.innerHTML = html;
+          if (chartSelect) chartSelect.innerHTML = html;
+        }
+      } catch(e) { console.warn(e); }
+    }
+
+    function setupSocialManager() {
+      try {
+        if (!window.dataEngine) return;
+        const settings = window.dataEngine.getSettings();
+
+        const waInput = document.getElementById('adm-wa-link');
+        const waChk = document.getElementById('adm-wa-enabled');
+        const tgInput = document.getElementById('adm-tg-link');
+        const tgChk = document.getElementById('adm-tg-enabled');
+        const btnSave = document.getElementById('btn-save-social-settings');
+
+        if (waInput) waInput.value = settings.waLink || '';
+        if (waChk) waChk.checked = settings.waEnabled !== false;
+        if (tgInput) tgInput.value = settings.tgLink || '';
+        if (tgChk) tgChk.checked = settings.tgEnabled !== false;
+
+        if (btnSave) {
+          btnSave.addEventListener('click', () => {
+            const updated = {
+              waLink: waInput ? waInput.value.trim() : '',
+              waEnabled: waChk ? waChk.checked : true,
+              tgLink: tgInput ? tgInput.value.trim() : '',
+              tgEnabled: tgChk ? tgChk.checked : true,
+            };
+
+            window.dataEngine.saveSettings(updated);
+            alert(`💾 SOCIAL LINKS & BUTTON SETTINGS SAVED!\n\nWhatsApp: ${updated.waEnabled ? 'ENABLED (ON)' : 'DISABLED (OFF)'}\nTelegram: ${updated.tgEnabled ? 'ENABLED (ON)' : 'DISABLED (OFF)'}\n\nमुख्य वेबसाइट पर तुरंत लाइव सिंक हो गया है!`);
+          });
+        }
+      } catch(e) { console.warn(e); }
+    }
+
+    function setupPublisher() {
+      try {
+        const form = document.getElementById('direct-publisher-form');
+        if (!form) return;
+
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const marketSelect = document.getElementById('pub-market-select');
+          const dateInput = document.getElementById('pub-target-date');
+          const todayInput = document.getElementById('pub-today-number');
+          const yesterdayInput = document.getElementById('pub-yesterday-number');
+
+          if (!marketSelect || !dateInput || !todayInput) return;
+
+          const marketId = marketSelect.value;
+          const resultDate = dateInput.value;
+          const todayNumber = todayInput.value.trim();
+          const yesterdayNumber = yesterdayInput ? yesterdayInput.value.trim() : '';
+          const setLiveNow = document.getElementById('chk-set-live-now') ? document.getElementById('chk-set-live-now').checked : false;
+          const showInstantly = document.getElementById('chk-show-instantly') ? document.getElementById('chk-show-instantly').checked : true;
+
+          const m = window.dataEngine.getMarkets().find(item => item.id === marketId);
+
+          let status = 'UPDATED';
+          let isSecret = false;
+
+          if (setLiveNow && !showInstantly) {
+            status = 'PENDING';
+            isSecret = true;
+          } else {
+            status = 'LIVE';
+            isSecret = false;
+          }
+
+          window.dataEngine.addOrUpdateResult({
+            marketId,
+            marketName: m ? m.name : 'MARKET',
+            slug: m ? m.slug : 'market',
+            resultValue: todayNumber,
+            yesterdayValue: yesterdayNumber || 'XX',
+            resultDate,
+            resultTime: m ? m.resultTime : '12:00 PM',
+            status: status,
+            isSecret: isSecret,
+            showInstantly: showInstantly,
+          });
+
+          alert(`🚀 RESULT PUBLISHED INSTANTLY!\nMarket: ${m ? m.name : 'MARKET'}\nToday Number: ${todayNumber}\nYesterday Number: ${yesterdayNumber || 'XX'}\n\nमुख्य वेबसाइट पर रिजल्ट तुरंत लाइव हो गया है!`);
+          loadSyncMonitor();
+          todayInput.value = '';
+        });
+      } catch(e) { console.warn(e); }
+    }
+
+    function setupDeleteAndReset() {
+      try {
+        const btnReset = document.getElementById('btn-reset-to-waiting');
+        const btnDelete = document.getElementById('btn-delete-result');
+
+        if (btnReset) {
+          btnReset.addEventListener('click', () => {
+            const marketId = document.getElementById('del-market-select').value;
+            const resultDate = document.getElementById('del-target-date').value;
+            const m = window.dataEngine.getMarkets().find(item => item.id === marketId);
+
+            if (confirm(`क्या आप ${m ? m.name : 'मार्केट'} (${resultDate}) का रिज़ल्ट रीसेट करके 'XX (WAITING)' बनाना चाहते हैं?`)) {
+              window.dataEngine.resetResultToWaiting(marketId, resultDate);
+              alert(`🔄 रिज़ल्ट रीसेट कर दिया गया है!`);
+              loadSyncMonitor();
+            }
+          });
+        }
+
+        if (btnDelete) {
+          btnDelete.addEventListener('click', () => {
+            const marketId = document.getElementById('del-market-select').value;
+            const resultDate = document.getElementById('del-target-date').value;
+            const m = window.dataEngine.getMarkets().find(item => item.id === marketId);
+
+            if (confirm(`क्या आप ${m ? m.name : 'मार्केट'} (${resultDate}) का रिज़ल्ट डेटाबेस से पूरी तरह डिलीट करना चाहते हैं?`)) {
+              window.dataEngine.deleteResult(marketId, resultDate);
+              alert(`🗑️ रिज़ल्ट डिलीट कर दिया गया है!`);
+              loadSyncMonitor();
+            }
+          });
+        }
+      } catch(e) { console.warn(e); }
+    }
+
+    function setupAdvancePanel() {
+      try {
+        const passBtn = document.getElementById('btn-unlock-advance');
+        const passInput = document.getElementById('advance-pass-input');
+        const passErr = document.getElementById('advance-pass-error');
+        const workspace = document.getElementById('advance-panel-workspace');
+        const lockBadge = document.getElementById('advance-lock-badge');
+
+        if (passBtn) {
+          passBtn.addEventListener('click', () => {
+            if (passInput && passInput.value === 'Ajay@8090') {
+              if (workspace) workspace.classList.remove('hidden');
+              if (document.getElementById('advance-pass-container')) document.getElementById('advance-pass-container').classList.add('hidden');
+              if (lockBadge) {
+                lockBadge.innerHTML = '🔓 Unlocked';
+                lockBadge.className = 'bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-black';
+              }
+              loadAdvanceBadgesTable();
+              loadAdvanceTimingsTable();
+            } else {
+              if (passErr) passErr.classList.remove('hidden');
+            }
+          });
+        }
+
+        const t2 = document.getElementById('adv-tab-2');
+        const t4 = document.getElementById('adv-tab-4');
+        const t5 = document.getElementById('adv-tab-5');
+
+        const c2 = document.getElementById('adv-cnt-2');
+        const c4 = document.getElementById('adv-cnt-4');
+        const c5 = document.getElementById('adv-cnt-5');
+
+        if (t2) {
+          t2.addEventListener('click', () => {
+            if (t2) t2.className = 'px-4 py-2.5 bg-red-800 text-yellow-300 rounded-t-xl';
+            if (t4) t4.className = 'px-4 py-2.5 bg-slate-200 text-slate-800 hover:bg-slate-300 rounded-t-xl';
+            if (t5) t5.className = 'px-4 py-2.5 bg-slate-200 text-slate-800 hover:bg-slate-300 rounded-t-xl';
+
+            if (c2) c2.classList.remove('hidden');
+            if (c4) c4.classList.add('hidden');
+            if (c5) c5.classList.add('hidden');
+          });
+        }
+
+        if (t4) {
+          t4.addEventListener('click', () => {
+            if (t4) t4.className = 'px-4 py-2.5 bg-red-800 text-yellow-300 rounded-t-xl';
+            if (t2) t2.className = 'px-4 py-2.5 bg-slate-200 text-slate-800 hover:bg-slate-300 rounded-t-xl';
+            if (t5) t5.className = 'px-4 py-2.5 bg-slate-200 text-slate-800 hover:bg-slate-300 rounded-t-xl';
+
+            if (c4) c4.classList.remove('hidden');
+            if (c2) c2.classList.add('hidden');
+            if (c5) c5.classList.add('hidden');
+          });
+        }
+
+        if (t5) {
+          t5.addEventListener('click', () => {
+            if (t5) t5.className = 'px-4 py-2.5 bg-red-800 text-yellow-300 rounded-t-xl';
+            if (t2) t2.className = 'px-4 py-2.5 bg-slate-200 text-slate-800 hover:bg-slate-300 rounded-t-xl';
+            if (t4) t4.className = 'px-4 py-2.5 bg-slate-200 text-slate-800 hover:bg-slate-300 rounded-t-xl';
+
+            if (c5) c5.classList.remove('hidden');
+            if (c2) c2.classList.add('hidden');
+            if (c4) c4.classList.add('hidden');
+          });
+        }
+
+        const btnSingleSave = document.getElementById('btn-chart-single-save');
+        if (btnSingleSave) {
+          btnSingleSave.addEventListener('click', () => {
+            const marketId = document.getElementById('chart-edit-market').value;
+            const resultDate = document.getElementById('chart-edit-date').value;
+            const val = document.getElementById('chart-edit-val').value.trim();
+
+            const m = window.dataEngine.getMarkets().find(item => item.id === marketId);
+            window.dataEngine.addOrUpdateResult({
+              marketId,
+              marketName: m ? m.name : 'MARKET',
+              slug: m ? m.slug : 'market',
+              resultValue: val,
+              resultDate,
+              resultTime: m ? m.resultTime : '12:00 PM',
+              status: 'UPDATED',
+            });
+            alert(`📊 Chart cell updated for ${m ? m.name : 'MARKET'} on ${resultDate}: ${val}\n\nमुख्य वेबसाइट पर रिजल्ट लाइव हो गया है!`);
+            loadSyncMonitor();
+          });
+        }
+      } catch(e) { console.warn(e); }
+    }
+
+    function loadAdvanceBadgesTable() {
+      try {
+        const tbody = document.getElementById('adv-table-badges-body');
+        if (!tbody || !window.dataEngine) return;
+
+        const markets = window.dataEngine.getMarkets();
+        tbody.innerHTML = markets.map(m => `
+          <tr>
+            <td class="text-left font-black text-red-800">${m.name}</td>
+            <td class="text-center font-bold">
+              <input type="number" id="rank-${m.id}" value="${m.rank || 1}" min="1" max="10" class="w-16 p-1 border text-center font-bold">
+            </td>
+            <td class="text-center">
+              <select id="badge-${m.id}" class="p-1 border text-xs font-bold bg-white">
+                <option value="NONE" ${m.badge === 'NONE' ? 'selected' : ''}>NONE</option>
+                <option value="LIVE ⚡" ${m.badge === 'LIVE ⚡' ? 'selected' : ''}>LIVE ⚡</option>
+                <option value="NEW ⚡" ${m.badge === 'NEW ⚡' ? 'selected' : ''}>NEW ⚡</option>
+                <option value="WAITING ⏳" ${m.badge === 'WAITING ⏳' ? 'selected' : ''}>WAITING ⏳</option>
+              </select>
+            </td>
+            <td class="text-right">
+              <button type="button" onclick="saveMarketBadge('${m.id}')" class="px-3 py-1 bg-red-800 text-yellow-300 font-black rounded uppercase">Save 📌</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch(e) { console.warn(e); }
+    }
+
+    function saveMarketBadge(marketId) {
+      try {
+        const markets = window.dataEngine.getMarkets();
+        const idx = markets.findIndex(m => m.id === marketId);
+        if (idx >= 0) {
+          markets[idx].rank = parseInt(document.getElementById(`rank-${marketId}`).value) || 1;
+          markets[idx].badge = document.getElementById(`badge-${marketId}`).value;
+
+          window.dataEngine.saveMarkets(markets);
+          alert(`📌 Saved Rank & Badge for ${markets[idx].name}! Website par live update ho gaya hai.`);
+          loadSyncMonitor();
+        }
+      } catch(e) { console.warn(e); }
+    }
+
+    function loadAdvanceTimingsTable() {
+      try {
+        const tbody = document.getElementById('adv-table-timings-body');
+        if (!tbody || !window.dataEngine) return;
+
+        const markets = window.dataEngine.getMarkets();
+        tbody.innerHTML = markets.map(m => `
+          <tr>
+            <td class="text-left font-black text-red-800">
+              <input type="text" id="name-${m.id}" value="${m.name}" class="w-full p-1 border font-bold">
+            </td>
+            <td class="text-center font-bold">
+              <input type="text" id="time-${m.id}" value="${m.resultTime}" class="w-28 p-1 border text-center font-bold">
+            </td>
+            <td class="text-right">
+              <button type="button" onclick="saveMarketTiming('${m.id}')" class="px-3 py-1 bg-red-800 text-yellow-300 font-black rounded uppercase">Update ⏰</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch(e) { console.warn(e); }
+    }
+
+    function saveMarketTiming(marketId) {
+      try {
+        const markets = window.dataEngine.getMarkets();
+        const idx = markets.findIndex(m => m.id === marketId);
+        if (idx >= 0) {
+          markets[idx].name = document.getElementById(`name-${marketId}`).value.trim();
+          markets[idx].resultTime = document.getElementById(`time-${marketId}`).value.trim();
+
+          window.dataEngine.saveMarkets(markets);
+          alert(`⏰ Saved Name & Timing for ${markets[idx].name}! Ticker aur cards par live update ho gaya hai.`);
+          loadSyncMonitor();
+        }
+      } catch(e) { console.warn(e); }
+    }
+
+    function loadSyncMonitor() {
+      try {
+        const tbody = document.getElementById('sync-monitor-table-body');
+        if (!tbody || !window.dataEngine) return;
+
+        const summary = window.dataEngine.getTodaySummaryDynamic(getISTDateString());
+        tbody.innerHTML = summary.map(item => `
+          <tr>
+            <td class="text-left font-black text-red-800">${item.marketName}</td>
+            <td class="text-center font-bold">${item.priorityScore}</td>
+            <td class="text-center font-bold">${item.badge}</td>
+            <td class="text-center font-mono font-bold">${item.yesterdayValue}</td>
+            <td class="text-center font-mono font-black text-emerald-700">${item.todayValue}</td>
+            <td class="text-right space-x-1">
+              <button type="button" onclick="quickResetResult('${item.marketId}')" class="px-2 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[10px] rounded uppercase" title="Reset result to XX">🔄 Reset</button>
+              <button type="button" onclick="quickDeleteResult('${item.marketId}')" class="px-2 py-1 bg-red-700 hover:bg-red-800 text-white font-black text-[10px] rounded uppercase" title="Delete result record">🗑️ Delete</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch(e) { console.warn(e); }
+    }
+
+    function quickResetResult(marketId) {
+      try {
+        const m = window.dataEngine.getMarkets().find(item => item.id === marketId);
+        const todayDate = getISTDateString();
+        if (confirm(`क्या आप ${m ? m.name : 'मार्केट'} का आज का रिज़ल्ट रीसेट करके 'XX (WAITING)' बनाना चाहते हैं?`)) {
+          window.dataEngine.resetResultToWaiting(marketId, todayDate);
+          alert(`🔄 रिज़ल्ट रीसेट कर दिया गया है!`);
+          loadSyncMonitor();
+        }
+      } catch(e) { console.warn(e); }
+    }
+
+    function quickDeleteResult(marketId) {
+      try {
+        const m = window.dataEngine.getMarkets().find(item => item.id === marketId);
+        const todayDate = getISTDateString();
+        if (confirm(`क्या आप ${m ? m.name : 'मार्केट'} का आज का रिज़ल्ट पूरी तरह डिलीट करना चाहते हैं?`)) {
+          window.dataEngine.deleteResult(marketId, todayDate);
+          alert(`🗑️ रिज़ल्ट डिलीट कर दिया गया है!`);
+          loadSyncMonitor();
+        }
+      } catch(e) { console.warn(e); }
+    }
+  </script>
+</body>
+</html>
