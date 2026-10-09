@@ -1,0 +1,390 @@
+/* Satta King Fast Exact Layout & Hardware Accelerated Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@700;900&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #ffffff;
+  color: #0f172a;
+  line-height: 1.4;
+  overflow-x: hidden;
+}
+
+/* 1. Header Banner */
+.satta-header-white {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  padding: 15px 10px;
+}
+
+/* Multi-Color FASTSATTA.live Branding */
+.brand-fast { color: #1d4ed8; }
+.brand-satta { color: #ea580c; }
+.brand-live { color: #16a34a; }
+
+/* 2. ⚡ ULTRA MODERN DASHBOARD BANNER (STATIC CONTAINER, TEXT-ONLY BLINK) */
+.dashboard-banner-modern {
+  background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #800000 100%);
+  border: 2px solid #ffea00;
+  box-shadow: 0 10px 25px -5px rgba(255, 234, 0, 0.25);
+  color: #ffea00;
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* SOFT TEXT-ONLY GLOW BLINK ANIMATION */
+.dashboard-banner-modern span {
+  animation: softTextGlowBlink 2s ease-in-out infinite;
+}
+
+@keyframes softTextGlowBlink {
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 12px rgba(255, 234, 0, 1), 0 0 24px rgba(255, 234, 0, 0.6);
+  }
+  50% {
+    opacity: 0.35;
+    text-shadow: 0 0 2px rgba(255, 234, 0, 0.2);
+  }
+}
+
+@media (min-width: 640px) {
+  .dashboard-banner-modern {
+    font-size: 1.1rem;
+  }
+}
+
+/* 🌿 LIGHT GREEN HIGH-CONVERTING PROMO BOX */
+.light-green-promo-card {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%);
+  border: 3px solid #059669;
+  box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.3);
+  border-radius: 20px;
+}
+
+.rate-badge-emerald {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  font-weight: 900;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+}
+
+/* 3. Hardware-Accelerated Ticker (RIGHT → LEFT) */
+.ticker-container {
+  width: 100%;
+  overflow: hidden !important;
+  background-color: #f8fafc;
+  border-top: 2px solid #e2e8f0;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 10px 0;
+  position: relative;
+  white-space: nowrap !important;
+}
+
+.ticker-track {
+  display: flex !important;
+  width: max-content !important;
+  white-space: nowrap !important;
+  animation: ticker-scroll 28s linear infinite !important;
+  -webkit-animation: ticker-scroll 28s linear infinite !important;
+  will-change: transform;
+}
+
+.ticker-container:hover .ticker-track {
+  animation-play-state: paused !important;
+  -webkit-animation-play-state: paused !important;
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+    -webkit-transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@-webkit-keyframes ticker-scroll {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  100% {
+    -webkit-transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.ticker-item {
+  display: flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 640px) {
+  .ticker-item {
+    font-size: 1rem;
+  }
+}
+
+/* Market Colors */
+.m-disawar { color: #2563eb; }
+.m-haryana-king { color: #ea580c; }
+.m-ram-bazar { color: #16a34a; }
+.m-delhi-bazar { color: #dc2626; }
+.m-shree-ganesh { color: #9333ea; }
+.m-faridabad { color: #0284c7; }
+.m-ambala-king { color: #d97706; }
+.m-gaziyabad { color: #059669; }
+.m-himachal-night { color: #b91c1c; }
+.m-gali { color: #7e22ce; }
+
+.m-time {
+  color: #475569;
+  font-weight: 700;
+  font-size: 0.82em;
+  margin-left: 4px;
+}
+
+/* Yellow Marquee Ticker */
+.notice-marquee-box {
+  background-color: #ffff00;
+  color: #8b0000;
+  font-weight: 900;
+  border-top: 2px solid #8b0000;
+  border-bottom: 2px solid #8b0000;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+/* Alert Notice Box */
+.alert-notice-frame {
+  background-color: #fffde7;
+  border: 2px solid #a00000;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  color: #a00000;
+  font-weight: 900;
+  font-size: 0.9rem;
+}
+
+/* Live Result Highlight Card */
+.satta-card {
+  background-color: #ffffff;
+  border: 2px solid #a00000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.satta-card-header {
+  background: linear-gradient(135deg, #a00000 0%, #700000 100%);
+  color: #ffea00;
+  padding: 11px 14px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 1.25rem;
+  border-bottom: 2px solid #ffea00;
+}
+
+.satta-card-body {
+  background-color: #fffde7;
+  padding: 15px 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.result-val-yesterday {
+  color: #475569;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: Arial, sans-serif;
+}
+
+.result-val-today {
+  color: #059669;
+  font-size: 3.4rem;
+  font-weight: 900;
+  font-family: Arial, sans-serif;
+  text-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
+  line-height: 1;
+}
+
+/* Satta Table */
+.satta-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border: 2px solid #a00000;
+}
+
+.satta-table th {
+  background-color: #a00000;
+  color: #ffea00;
+  font-size: 0.95rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 12px 8px;
+  border: 1px solid #700000;
+  text-align: center;
+}
+
+.satta-table td {
+  padding: 12px 8px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #000000;
+}
+
+.satta-table tr:nth-child(even) {
+  background-color: #fffde7;
+}
+
+.satta-table tr:hover {
+  background-color: #fff9c4;
+}
+
+/* Yearly Chart Buttons */
+.chart-button-yellow {
+  background: linear-gradient(180deg, #ffea00 0%, #e6c200 100%);
+  color: #000000;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 12px 8px;
+  border-radius: 6px;
+  border: 2px solid #a00000;
+  text-align: center;
+  display: block;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  text-decoration: none;
+}
+
+.chart-button-yellow:hover {
+  background: #a00000;
+  color: #ffea00;
+}
+
+/* Navigation Bar */
+.satta-nav-bar {
+  background-color: #0f172a;
+  border-bottom: 3px solid #ffea00;
+}
+
+.satta-nav-link {
+  color: #ffffff;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.satta-nav-link:hover, .satta-nav-link.active {
+  background-color: #ffea00;
+  color: #000000;
+}
+
+/* Blinking Wait Box */
+.blinking-wait {
+  animation: blink 1s infinite;
+  background-color: #ef4444;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 900;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* 🚀 MOBILE OPTIMIZATION FOR OCTOBER MIX RECORD CHART (ONLY <600px) */
+@media (max-width: 600px) {
+  .mix-chart-container {
+    width: 100% !important;
+    max-width: calc(100vw - 16px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    border-radius: 12px !important;
+  }
+
+  .mix-chart-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+    box-sizing: border-box !important;
+  }
+
+  .mix-chart-table th {
+    padding: 6px 1px !important;
+    font-size: 9px !important;
+    letter-spacing: -0.2px !important;
+  }
+
+  .mix-chart-table td {
+    padding: 6px 1px !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+  }
+
+  .mix-chart-header-banner {
+    padding: 8px 6px !important;
+    font-size: 10px !important;
+    letter-spacing: 0px !important;
+  }
+}
+
+/* 🚀 MOBILE GENERAL TABLE & CONTENT RESPONSIVENESS baseline 360px */
+@media (max-width: 640px) {
+  .satta-table {
+    font-size: 0.85rem;
+  }
+  .satta-table th, .satta-table td {
+    padding: 8px 4px;
+  }
+  .admin-card {
+    padding: 12px !important;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #a00000;
+  border-radius: 4px;
+}
