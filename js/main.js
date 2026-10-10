@@ -1,4 +1,4 @@
-// Fastsatta.live Main UI Script with 0ms Instant First-Paint Render Engine
+// Fastsatta.live Main UI Script with Dynamic IST Search Engine Optimization
 
 // 🚀 Instant First-Paint Executor: Renders UI at millisecond 0 from memory!
 function initInstantPageRender() {
@@ -110,28 +110,36 @@ function getFormattedISTDateShort(dateObj) {
   return `${day} ${month}`;
 }
 
-// 🎯 Dynamic IST SEO Title & Meta Description Auto-Updater
+// 🎯 Dynamic Asia/Kolkata IST SEO Title & Meta Description Auto-Updater
 function updateDynamicSEOMetadata() {
-  const istFullDate = getFormattedISTDateFull();
+  const istFullDate = getFormattedISTDateFull(); // e.g. "10th October 2026"
   const path = window.location.pathname.toLowerCase();
 
-  let pageTitle = `Satta King Result of ${istFullDate} | FastSatta.live`;
-  let metaDescription = `Get superfast Satta King live result updates of ${istFullDate} for Disawar, Faridabad, Gaziyabad, Gali, Shree Ganesh, Delhi Bazar on FastSatta.live.`;
+  // Exact Google Search Preview Target:
+  // Title: Satta King Live Result Today – [Current Date] | FastSatta
+  // Description: Check Satta King Live Results for [Current Date]. Get today's latest market results, daily updates and historical charts for Disawar, Haryana King, Delhi Bazar, Ram Bazar and more on FastSatta.live.
+  let pageTitle = `Satta King Live Result Today – ${istFullDate} | FastSatta`;
+  let metaDescription = `Check Satta King Live Results for ${istFullDate}. Get today's latest market results, daily updates and historical charts for Disawar, Haryana King, Delhi Bazar, Ram Bazar and more on FastSatta.live.`;
 
   if (path.includes('today.html')) {
-    pageTitle = `Today Satta King Result (${istFullDate}) | FastSatta.live`;
-    metaDescription = `Today's superfast Satta King live results for ${istFullDate}. Check Disawar, Faridabad, Gaziyabad, Gali live result numbers instantly.`;
+    pageTitle = `Today Satta King Live Result – ${istFullDate} | FastSatta`;
+    metaDescription = `Check Satta King Live Results for ${istFullDate}. Get today's latest market results, daily updates and historical charts for Disawar, Haryana King, Delhi Bazar, Ram Bazar and more on FastSatta.live.`;
   } else if (path.includes('results.html') || path.includes('history.html')) {
-    pageTitle = `All Satta King Results Archive ${getISTDateObj().getFullYear()} | FastSatta.live`;
+    pageTitle = `All Satta King Results Archive – ${getISTDateObj().getFullYear()} | FastSatta`;
+    metaDescription = `Search complete archive of Satta King live results. Check historical record charts for Disawar, Faridabad, Gaziyabad, Gali, Shree Ganesh on FastSatta.live.`;
   } else if (path.includes('record-chart.html')) {
-    pageTitle = `Satta King Record Chart ${getISTDateObj().getFullYear()} — Monthly & Yearly | FastSatta.live`;
+    pageTitle = `Satta King Record Chart ${getISTDateObj().getFullYear()} — Monthly & Yearly | FastSatta`;
+    metaDescription = `View complete monthly and yearly Satta King record chart matrix for Disawar, Faridabad, Gaziyabad, Gali, Shree Ganesh, Delhi Bazar on FastSatta.live.`;
   }
 
+  // Synchronize <title>
   document.title = pageTitle;
 
+  // Synchronize <meta name="description">
   const metaDescTag = document.querySelector('meta[name="description"]');
   if (metaDescTag) metaDescTag.setAttribute('content', metaDescription);
 
+  // Synchronize OpenGraph title & description
   const ogTitleTag = document.querySelector('meta[property="og:title"]');
   if (ogTitleTag) ogTitleTag.setAttribute('content', pageTitle);
 

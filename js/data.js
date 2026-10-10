@@ -1,4 +1,4 @@
-// Fastsatta.live - Market & Chart Data Engine with Fail-Safe Auto-Recovery Guarantee
+// Fastsatta.live - Market & Chart Data Engine with Permanent Non-Destructive Cloud & Local Result Merger
 
 const DEFAULT_MARKETS = [
   { id: 'm1', name: 'DISAWAR', slug: 'disawar', resultTime: '05:00 AM', openTime: '03:00 AM', closeTime: '04:30 AM', category: 'DESAWAR', timeMinutes: 300, order: 1 },
@@ -31,7 +31,6 @@ const BACKUP_DATABASE = {
       "06": { "AK": "98", "DB": "29", "DS": "59", "FB": "01", "GL": "53", "GZ": "38", "HK": "94", "HN": "44", "RB": "59", "SG": "27" },
       "07": { "AK": "96", "DB": "06", "DS": "23", "FB": "87", "GL": "29", "GZ": "84", "HK": "43", "HN": "21", "RB": "55", "SG": "89" },
       "08": { "AK": "12", "DB": "07", "DS": "90", "FB": "92", "GL": "62", "GZ": "74", "HK": "00", "HN": "27", "RB": "13", "SG": "02" },
-      // Today October 09 Declared: Disawar (DS: 26), Haryana King (HK: 96), Ram Bazar (RB: 54), Delhi Bazar (DB: 87), Shree Ganesh (SG: 01)
       "09": { "DS": "26", "HK": "96", "RB": "54", "DB": "87", "SG": "01", "AK": "XX", "FB": "XX", "GL": "XX", "GZ": "XX", "HN": "XX" }
     },
     "09": {
@@ -163,20 +162,58 @@ class DataEngine {
   }
 
   init() {
-    const CURRENT_DATA_VERSION = 'v2026_failsafe_recovery_v700';
     localStorage.setItem('fastsatta_markets', JSON.stringify(DEFAULT_MARKETS));
 
-    const existingResults = this.getResults();
-    if (localStorage.getItem('fastsatta_data_version') !== CURRENT_DATA_VERSION || existingResults.length < 50) {
-      localStorage.removeItem('fastsatta_results');
+    // Non-destructive initial seed: Keep all declared published results!
+    const existing = this.getResults();
+    if (existing.length < 50) {
       const freshData = generateFullDemoResults();
-      localStorage.setItem('fastsatta_results', JSON.stringify(freshData));
-      localStorage.setItem('fastsatta_data_version', CURRENT_DATA_VERSION);
+      this.mergeAndSaveResults(freshData);
     }
 
     if (!localStorage.getItem('fastsatta_settings')) {
       localStorage.setItem('fastsatta_settings', JSON.stringify(DEFAULT_SETTINGS));
     }
+  }
+
+  // 🛡️ Permanent Non-Destructive Results Merger (Preserves Published Results Always!)
+  mergeAndSaveResults(incomingResults) {
+    let localResults = [];
+    try {
+      localResults = JSON.parse(localStorage.getItem('fastsatta_results') || '[]');
+    } catch(e) {}
+
+    const resultMap = {};
+
+    // 1. Load local results
+    localResults.forEach(r => {
+      const key = `${r.marketId}_${r.resultDate}`;
+      resultMap[key] = r;
+    });
+
+    // 2. Merge incoming results without overwriting declared numbers with 'XX'
+    incomingResults.forEach(cloudRecord => {
+      const key = `${cloudRecord.marketId}_${cloudRecord.resultDate}`;
+      const existing = resultMap[key];
+
+      if (!existing) {
+        resultMap[key] = cloudRecord;
+      } else {
+        // PRESERVE DECLARED NUMBERS: If existing local/cloud has declared value (!= 'XX') and new is 'XX', KEEP DECLARED!
+        if (existing.resultValue && existing.resultValue !== 'XX' && cloudRecord.resultValue === 'XX') {
+          // Keep existing declared result! Heal cloud if db exists.
+          if (this.db) {
+            try { this.db.ref(`fastsatta/results/${existing.id}`).set(existing); } catch(e) {}
+          }
+        } else {
+          resultMap[key] = cloudRecord;
+        }
+      }
+    });
+
+    const mergedList = Object.values(resultMap);
+    localStorage.setItem('fastsatta_results', JSON.stringify(mergedList));
+    return mergedList;
   }
 
   initFirebaseSync() {
@@ -188,28 +225,24 @@ class DataEngine {
       }
 
       if (this.db) {
-        const CURRENT_DATA_VERSION = 'v2026_failsafe_recovery_v700';
-        if (localStorage.getItem('fastsatta_cloud_synced_version') !== CURRENT_DATA_VERSION) {
-          try {
+        // 🛡️ Safe Seed: Only populate Firebase Cloud if database is brand new and empty!
+        this.db.ref('fastsatta/results').once('value', (snapshot) => {
+          if (!snapshot.exists() || !snapshot.val()) {
+            console.log("🌱 Database empty in Cloud. Performing initial seed...");
             const freshData = generateFullDemoResults();
             const cloudObj = {};
             freshData.forEach(item => { cloudObj[item.id] = item; });
             this.db.ref('fastsatta/results').set(cloudObj);
-            localStorage.setItem('fastsatta_cloud_synced_version', CURRENT_DATA_VERSION);
-          } catch(e) {}
-        }
+          }
+        });
 
+        // ⚡ Realtime Non-Destructive Sync
         this.db.ref('fastsatta/results').on('value', (snapshot) => {
           const fbData = snapshot.val();
           if (fbData) {
-            const resultsList = Object.values(fbData);
-            const currentLocal = localStorage.getItem('fastsatta_results');
-            const newString = JSON.stringify(resultsList);
-
-            if (currentLocal !== newString) {
-              localStorage.setItem('fastsatta_results', newString);
-              this.refreshAllPageViews();
-            }
+            const cloudResultsList = Object.values(fbData);
+            this.mergeAndSaveResults(cloudResultsList);
+            this.refreshAllPageViews();
           }
         }, (error) => {
           console.warn("⚠️ Firebase Results Sync Error:", error.message);
@@ -291,7 +324,7 @@ class DataEngine {
     }
   }
 
-  // 🛡️ Fail-Safe Guarantee: Never Returns Empty Array! Automatically Recovers Full Backup Dataset!
+  // 🛡️ Fail-Safe Guarantee: Never Returns Empty Array!
   getResults() {
     let data = [];
     try {
